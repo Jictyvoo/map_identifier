@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "map_identifier"
+version = "0.1.0"
+description = "A open_cv project that takes an image and returns a data struct for it, representing a game map"
+authors = ["Jictyvoo <contact@jictyvoo.dev>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+numpy = "^1.23.0"
+opencv-python = "^4.6.0"
+opencv-contrib-python = "^4.6.0"
+
+[tool.poetry.dev-dependencies]
+black = "^22.6.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
