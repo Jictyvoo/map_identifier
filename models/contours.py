@@ -1,5 +1,7 @@
 import cv2
 
+from models.circle_element import CircleElement
+
 
 class Contours:
     def __init__(self, contours: tuple, hierarchy: any, is_sorted: bool) -> None:
@@ -32,3 +34,20 @@ class Contours:
                 element_index = index
 
         return self.contours[element_index]
+
+    def check_contour_inside_circle(
+        self, circle_element: CircleElement, contour: tuple
+    ) -> bool:
+
+        return cv2.pointPolygonTest(contour, circle_element.center, False) == 1
+
+    def remove_contours(self, contours: list, is_circle: bool = False) -> None:
+        if is_circle:
+            sub_contours = []
+            for circle_element in contours:
+                for internal_contour in self.contours:
+                    if self.check_contour_inside_circle(
+                        circle_element=circle_element, contour=internal_contour
+                    ):
+                        sub_contours.append(internal_contour)
+            return sub_contours

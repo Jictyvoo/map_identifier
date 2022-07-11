@@ -33,6 +33,7 @@ class HSVColors(Enum):
     CYAN = HSVColor(h=(90, 119), s=(0, 255), v=(0, 255))
     BLUE = HSVColor(h=(120, 149), s=(0, 255), v=(0, 255))
     MAGENTA = HSVColor(h=(150, 179), s=(0, 255), v=(0, 255))
+    PURPLE = HSVColor(h=(180, 209), s=(0, 255), v=(0, 255))
 
     def get(name: str):
         match name.upper():
@@ -50,4 +51,6 @@ class HSVColors(Enum):
                 return HSVColors.BLUE
             case "MAGENTA":
                 return HSVColors.MAGENTA
+            case "PURPLE":
+                return HSVColors.PURPLE
         return HSVColors.WHITE
