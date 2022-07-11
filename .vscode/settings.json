@@ -1,4 +1,7 @@
 {
   "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": { "source.organizeImports": true }
+  "editor.formatOnSaveMode": "file",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  }
 }
