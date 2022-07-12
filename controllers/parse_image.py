@@ -35,7 +35,10 @@ class ParseImage(ImageRepositoryProvider):
         height, width = image.shape[:2]
 
         # Circle removed from the contours
-        return MapData(walls=contours, spawners=spawners, size=(width, height))
+        return (
+            MapData(walls=contours, spawners=spawners, size=(width, height)),
+            debug_image,
+        )
 
     def parse(self, image_src: str, output: str) -> None:
         image = self._image_loader.load(image_src)
@@ -52,7 +55,8 @@ class ParseImage(ImageRepositoryProvider):
         # for section in image_sections.values():
         #     self.export_image(image=section, output_folder=output, input_name=image_src)
 
-        retrieved_map_info = self._execute(image)
+        retrieved_map_info, debug_image = self._execute(image)
+        self.export_image(image_src, output, debug_image)
         self.__exporter.export(
             map_data=retrieved_map_info, output_path=output, input_name=image_src
         )
