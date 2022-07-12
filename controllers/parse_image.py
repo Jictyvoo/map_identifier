@@ -1,4 +1,5 @@
 import cv2
+from models.entities.map_data import MapData
 from models.hsv_colors import HSVColors
 from repositories import ImageRepositoryProvider
 from usecases.circle_identifier import CircleIdentifier
@@ -22,7 +23,7 @@ class ParseImage(ImageRepositoryProvider):
             image,
         )
 
-    def _execute(self, image: cv2.Mat) -> None:
+    def _execute(self, image: cv2.Mat) -> MapData:
         threshould_applier = ThresholdApplier(threshold=(230, 255))
         line_identifier = LineIdentifier()
         circle_indetifier = CircleIdentifier()
@@ -30,8 +31,11 @@ class ParseImage(ImageRepositoryProvider):
         contours, debug_image = line_identifier.execute(threshould_image)
         spawners, _ = circle_indetifier.execute(threshould_image)
 
+        # get image size
+        height, width = image.shape[:2]
+
         # Circle removed from the contours
-        return debug_image
+        return MapData(walls=contours, spawners=spawners, size=(width, height))
 
     def parse(self, image_src: str, output: str) -> None:
         image = self._image_loader.load(image_src)
@@ -41,13 +45,14 @@ class ParseImage(ImageRepositoryProvider):
             src=image, dsize=(int(self.__dimensions[0]), int(self.__dimensions[1]))
         )
 
-        splitter = ColorSpliter(
-            colors=(HSVColors.BLUE, HSVColors.GREEN, HSVColors.YELLOW)
+        # splitter = ColorSpliter(
+        #     colors=(HSVColors.BLUE, HSVColors.GREEN, HSVColors.YELLOW)
+        # )
+        # image_sections = splitter.execute(image)
+        # for section in image_sections.values():
+        #     self.export_image(image=section, output_folder=output, input_name=image_src)
+
+        retrieved_map_info = self._execute(image)
+        self.__exporter.export(
+            map_data=retrieved_map_info, output_path=output, input_name=image_src
         )
-        image_sections = splitter.execute(image)
-
-        for section in image_sections.values():
-            self.export_image(image=section, output_folder=output, input_name=image_src)
-
-        debug_image = self._execute(image)
-        self.export_image(image=debug_image, output_folder=output, input_name=image_src)
