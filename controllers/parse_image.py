@@ -1,9 +1,7 @@
 import cv2
 from models.entities.map_data import MapData
-from models.hsv_colors import HSVColors
 from repositories import ImageRepositoryProvider
 from usecases.circle_identifier import CircleIdentifier
-from usecases.color_splitter import ColorSpliter
 from usecases.line_identifier import LineIdentifier
 from usecases.map_exporter import MapExporter
 from usecases.threshold_applier import ThresholdApplier

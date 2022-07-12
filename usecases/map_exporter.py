@@ -1,7 +1,4 @@
-from typing import Any
-
 import numpy as np
-from models.contours import Contours
 from models.entities.map_data import BlockTypes, MapData
 from repositories.file_saver_repository import FileSaverRepository
 from utils.generators import output_filename
@@ -10,7 +7,6 @@ from utils.generators import output_filename
 class MapExporter:
     def __init__(self, collision_groups: list = []):
         self.__collision_groups = collision_groups
-        self.__block_size = (16, 16)
         self.__map_size = (22, 19)
 
     def export_map(self, filename: str, output_folder: str, map: tuple) -> None:
